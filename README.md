@@ -1,0 +1,2 @@
+wot-default-settings-class
+==========================

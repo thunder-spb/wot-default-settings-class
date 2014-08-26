@@ -154,4 +154,37 @@ class wotDefaultSettings {
 		$alldata = $this->_cluster_settings[$cluster];
 		return array_replace_recursive($alldata, array( 'api' => $new_settings ) );		
 	}
+	function get_response_from_server( $_url ) {
+		$cookie = tempnam ("/tmp", "CURLCOOKIE");
+		$content = array();
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $_url);
+		curl_setopt($ch, CURLOPT_VERBOSE, 0);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie );	
+		curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+		curl_setopt($ch, CURLOPT_HTTPHEADER, 
+			array(
+			'Accept: application/json, text/javascript, text/html, */*',
+			'X-Requested-With: XMLHttpRequest'
+			)
+		);
+		
+		curl_setopt($ch, CURLOPT_REFERER, "http://wargaming.net/");
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$content['content'] = curl_exec($ch);
+		$response = curl_getinfo($ch);// var_dump( $response );
+		if (!$content['content']) { $content['error']['text'] = "Cannot get data from {$_url}.\nServer returned {$response['http_code']}"; return $content; }
+		
+		if (curl_getinfo($ch, CURLINFO_CONTENT_TYPE) == 'image/jpeg') {
+			$content = array();
+			$content['error']['text'] = 'Cannot get data from WoT server. Site returned image/jpeg. Maybe maintanence?';
+		}
+		curl_close($ch);
+		unlink( $cookie );
+		return $content;
+	}		
+
 }

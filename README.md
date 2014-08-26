@@ -1,4 +1,4 @@
-wot-default-settings-class
+WoT PHP Default Settings for WG Public API
 ==========================
 
 Class with basic default setting for WG Public API interaction

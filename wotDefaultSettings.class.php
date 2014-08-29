@@ -32,7 +32,7 @@ class wotDefaultSettings {
 			'json',
 		),
 	);
-	protected $_default_api_settings = array(
+	private $_default_api_settings = array(
 			'api' => array(
 				'2.0' => array(
 					'appid' => 'demo',
@@ -49,7 +49,7 @@ class wotDefaultSettings {
 				'eventcalendar' => '/%s/event_calendar/events/?start_week=%s&end_week=%s&event_calendar=38866&r=0.20429103984497488',
 			),
 		);
-	protected $_cluster_settings = array(
+	private $_cluster_settings = array(
 			'ru' => array( 
 				'servers' => array(
 					'cw' => 'http://cw.worldoftanks.ru',
@@ -142,6 +142,10 @@ class wotDefaultSettings {
 				),
 			),
 		);
+
+	function __construct() {
+		$this->_loadConfigFile();
+	}
 	protected function _getUrl( $urltype,  $cluster = ru ) {
 		$url = '';
 		$cluster_settings = ( isset( $this->_cluster_settings[$cluster]['api']) ) ? $this->_cluster_settings[$cluster]['api'] : array();
@@ -156,6 +160,18 @@ class wotDefaultSettings {
 		$alldata = $this->_cluster_settings[$cluster];
 		return array_replace_recursive($alldata, $new_settings);		
 	}
+
+	private function _loadConfigFile() {
+		if ( file_exists( __DIR__.'/config.inc.php' )) {
+			require_once( __DIR__.'/config.inc.php' );
+			if (isset( $config ) && is_array( $config ) && count( $config )>0 ) {
+				$this->_cluster_settings = array_replace_recursive($this->_cluster_settings, $config);
+			}
+		} elseif ( file_exists( 'config.inc.php.sample' ) ) {
+
+		}
+	}
+
 	protected function get_response_from_server( $_url ) {
 		$cookie = tempnam ("/tmp", "CURLCOOKIE");
 		$content = array();

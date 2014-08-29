@@ -160,6 +160,17 @@ class wotDefaultSettings {
 		$alldata = $this->_cluster_settings[$cluster];
 		return array_replace_recursive($alldata, $new_settings);		
 	}
+	protected function _getAvailableClusters() {
+		return array_keys( $this->_cluster_settings );
+	}
+
+	protected function _getAvailableLanguages() {
+		$_r = array();
+		foreach( $this->_cluster_settings as $k => $v ) {
+			$_r = array_unique( array_merge( $_r, array_keys($v['language']) ) );
+		}
+		return $_r;
+	}
 
 	private function _loadConfigFile() {
 		if ( file_exists( __DIR__.'/config.inc.php' )) {

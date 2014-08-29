@@ -194,6 +194,7 @@ class wotDefaultSettings {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$content['content'] = curl_exec($ch);
 		$response = curl_getinfo($ch);// var_dump( $response );
+		$content['info'] = $response;
 		if (!$content['content']) { $content['error']['text'] = "Cannot get data from {$_url}.\nServer returned {$response['http_code']}"; return $content; }
 		
 		if (curl_getinfo($ch, CURLINFO_CONTENT_TYPE) == 'image/jpeg') {

@@ -144,13 +144,13 @@ class wotDefaultSettings {
 		);
 
 	function __construct() {
+		// Be sure to call this from extended class like parent::__construct();
 		$this->_loadConfigFile();
 	}
 	protected function _getUrl( $urltype,  $cluster = ru ) {
 		$url = '';
 		$cluster_settings = ( isset( $this->_cluster_settings[$cluster]['api']) ) ? $this->_cluster_settings[$cluster]['api'] : array();
 		$new_settings = array_replace_recursive($this->_default_api_settings, array( 'api' => $cluster_settings) );
-//		print_r( $new_settings );
 		$url = $this->_cluster_settings[$cluster]['servers']['api'].$new_settings['links'][$urltype];
 		return $url;
 	}
@@ -183,7 +183,7 @@ class wotDefaultSettings {
 		}
 	}
 
-	protected function get_response_from_server( $_url ) {
+	protected function get_response_from_server( $_url, $_dump = false ) {
 		$cookie = tempnam ("/tmp", "CURLCOOKIE");
 		$content = array();
 		$ch = curl_init();
@@ -214,6 +214,8 @@ class wotDefaultSettings {
 		}
 		curl_close($ch);
 		unlink( $cookie );
+		// just for debug reasons dumping into stdout :)
+		if ( $_dump ) { var_dump( $content ); }
 		return $content;
 	}		
 

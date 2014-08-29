@@ -1,0 +1,11 @@
+<?
+
+$config = array(
+	'ru' => array(
+	    'api' => array(
+		'2.0' => array(
+		    'appid' => '123',
+		),
+	    ),
+	),
+    );

@@ -45,6 +45,8 @@ class wotDefaultSettings {
 				'playertanks' => '/%s/tanks/stats/?application_id=%s&account_id=%s&fields=tank_id,all.battles,all.wins,all.damage_dealt,all.battle_avg_xp,in_garage,max_frags,max_xp',
 				'searchplayer' => '/%s/account/list/?application_id=%s&search=%s&limit=1',
 				'playerclan' => '/wot/clan/membersinfo/?application_id=%s&member_id=%s',
+				## 1 - language, 2 - start date linux timestamp, 3 - end timestamp
+				'eventcalendar' => '/%s/event_calendar/events/?start_week=%s&end_week=%s&event_calendar=38866&r=0.20429103984497488',
 			),
 		);
 	protected $_cluster_settings = array(
@@ -152,9 +154,9 @@ class wotDefaultSettings {
 		$cluster_settings = ( isset( $this->_cluster_settings[$cluster]['api']) ) ? $this->_cluster_settings[$cluster]['api'] : array();
 		$new_settings = array_replace_recursive($this->_default_api_settings, array( 'api' => $cluster_settings) );
 		$alldata = $this->_cluster_settings[$cluster];
-		return array_replace_recursive($alldata, array( 'api' => $new_settings ) );		
+		return array_replace_recursive($alldata, $new_settings);		
 	}
-	function get_response_from_server( $_url ) {
+	protected function get_response_from_server( $_url ) {
 		$cookie = tempnam ("/tmp", "CURLCOOKIE");
 		$content = array();
 		$ch = curl_init();

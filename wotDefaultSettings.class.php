@@ -38,6 +38,9 @@ class wotDefaultSettings {
 					'appid' => 'demo',
 				),
 			),
+			'events' => array(
+				'url' => '/%s/event_calendar/events/?start_week=%s&end_week=%s&event_calendar=%s',
+			),
 			'links' => array(
 				'clanbattles' => '/%s/clan/battles/?application_id=%s&fields=provinces,started,time,type&clan_id=',
 				'claninfo' => '/%s/clan/info/?application_id=%s&fields=abbreviation,clan_id,emblems,name&clan_id=',
@@ -45,8 +48,8 @@ class wotDefaultSettings {
 				'playertanks' => '/%s/tanks/stats/?application_id=%s&account_id=%s&fields=tank_id,all.battles,all.wins,all.damage_dealt,all.battle_avg_xp,in_garage,max_frags,max_xp',
 				'searchplayer' => '/%s/account/list/?application_id=%s&search=%s&limit=1',
 				'playerclan' => '/wot/clan/membersinfo/?application_id=%s&member_id=%s',
-				## 1 - language, 2 - start date linux timestamp, 3 - end timestamp
-				'eventcalendar' => '/%s/event_calendar/events/?start_week=%s&end_week=%s&event_calendar=38866&r=0.20429103984497488',
+				## 1 - language, 2 - start date linux timestamp, 3 - end timestamp, 4 - calendar id
+				'eventcalendar' => '/%s/event_calendar/events/?start_week=%s&end_week=%s&event_calendar=%s',
 			),
 		);
 	private $_cluster_settings = array(
@@ -55,12 +58,15 @@ class wotDefaultSettings {
 					'cw' => 'http://cw.worldoftanks.ru',
 					'api' => 'https://api.worldoftanks.ru',
 					'main' => 'http://worldoftanks.ru',
-					),
+				),
 				'api' => array(
 					'2.0' => array(
-							'appid' => 'demo',
-						),
+						'appid' => 'demo',
 					),
+				),
+				'events' => array(
+					'calendar_id' => 90551,
+				),
 				'default_language' => 'ru',
 				'language' => array(
 					'ru' => array (
@@ -114,6 +120,12 @@ class wotDefaultSettings {
 						'map' => '/static/wgcw/js/i18n/en_earth_map.js',
 					),
 				),
+				'events' => array(
+					'calendar_id' => 23097,
+					),
+				'links' => array(
+						'eventcalendar' => '/%s/event_calendar/events/?start_week=%s&end_week=%s&event_calendar=6467&r=0.20429103984497488',
+					),
 			),
 			'sea' => array( 
 				'servers' => array(
